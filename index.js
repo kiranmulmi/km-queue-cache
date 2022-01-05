@@ -21,8 +21,7 @@ class KmQueueCache {
 
                 fs.writeFile(this.cachePath, newData, (err) => {
                     if (err) reject(err);
-                    console.log('Pushed');
-                    resolve("success");
+                    resolve(obj);
                 });
             });
         }));
@@ -63,19 +62,6 @@ class KmQueueCache {
                     jsonData = JSON.parse(rawData);
                 }
                 resolve(jsonData.find(expression));
-            });
-        }));
-    }
-    getAllQueueData() {
-        return new Promise(((resolve, reject) => {
-            fs.readFile(this.cachePath, (err, rawData) => {
-                if (err) reject(err);
-                let jsonData = [];
-                if(this.isJsonParsable(rawData)) {
-                    jsonData = JSON.parse(rawData);
-                }
-                resolve(jsonData);
-
             });
         }));
     }
