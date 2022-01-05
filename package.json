@@ -1,0 +1,11 @@
+{
+  "name": "km-queue-cache",
+  "version": "1.0.0",
+  "description": "This package is for making cache in queue.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kiran mulmi",
+  "license": "ISC"
+}
