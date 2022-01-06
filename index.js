@@ -74,6 +74,18 @@ class KmQueueCache {
             });
         }));
     }
+    removeAll() {
+        return new Promise((resolve, reject) => {
+            let jsonData = [];
+            fs.writeFile(this.cachePath, JSON.stringify(jsonData), (err) => {
+                if (err) reject(err);
+                resolve({
+                    status:"success",
+                    total: jsonData.length
+                });
+            });
+        });
+    }
     find(expression) {
         return new Promise(((resolve, reject) => {
             fs.readFile(this.cachePath, (err, rawData) => {
