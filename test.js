@@ -10,9 +10,13 @@ const student = {
     "name": "Kiran Mulmi"
 }
 //
-myCache.push(student).then(response => {
-    console.log(response);
-});
+// myCache.push(student).then(response => {
+//     console.log(response);
+// });
 // myCache.remove("id", 8).then(response => {
 //     console.log(response);
 // });
+
+myCache.getAllQueueData().then(response => {
+    console.log(response);
+});

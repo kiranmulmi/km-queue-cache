@@ -1,6 +1,6 @@
 {
   "name": "km-queue-cache",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "This package is for making cache in queue.",
   "main": "index.js",
   "scripts": {
