@@ -27,16 +27,24 @@ myCache.getAllQueueData().then(response => {
     console.log(response); // All Results
 });
 ```
-### Filter Data
+### Filter Or Get All Data
 ```javascript
 myCache.filter(student => student.id === 6).then(response => {
     console.log(response)
 });
+
+myCache.getAll("id", 6).then(response => {
+    console.log(response)
+});
 ```
-### Find Data
+### Find or Get Data
 ```javascript
 myCache.find(student => student.name === "kiran mulmi").then(response => {
-    console.log(response)
+    console.log(response);
+});
+
+myCache.get("name", "kiran mulmi").then(response => {
+    console.log(response);
 });
 ```
 

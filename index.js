@@ -4,13 +4,12 @@ class KmQueueCache {
         this.cachePath = path;
         this.queueSize = queueSize;
     }
-
     push(obj) {
         return new Promise(((resolve, reject) => {
             fs.readFile(this.cachePath, (err, rawData) => {
                 if (err) reject(err);
                 let jsonData = [];
-                if(this.isJsonParsable(rawData)) {
+                if(isJsonParsable(rawData)) {
                     jsonData = JSON.parse(rawData);
                 }
                 if(jsonData.length >= this.queueSize) {
@@ -29,29 +28,15 @@ class KmQueueCache {
             });
         }));
     }
-
     getAllQueueData() {
         return new Promise(((resolve, reject) => {
             fs.readFile(this.cachePath, (err, rawData) => {
                 if (err) reject(err);
                 let jsonData = [];
-                if(this.isJsonParsable(rawData)) {
+                if(isJsonParsable(rawData)) {
                     jsonData = JSON.parse(rawData);
                 }
                 resolve(jsonData);
-            });
-        }));
-    }
-
-    filter(expression) {
-        return new Promise(((resolve, reject) => {
-            fs.readFile(this.cachePath, (err, rawData) => {
-                if (err) reject(err);
-                let jsonData = [];
-                if(this.isJsonParsable(rawData)) {
-                    jsonData = JSON.parse(rawData);
-                }
-                resolve(jsonData.filter(expression));
             });
         }));
     }
@@ -60,7 +45,7 @@ class KmQueueCache {
             fs.readFile(this.cachePath, (err, rawData) => {
                 if (err) reject(err);
                 let jsonData = [];
-                if(this.isJsonParsable(rawData)) {
+                if(isJsonParsable(rawData)) {
                     jsonData = JSON.parse(rawData);
                 }
                 const filteredData = jsonData.filter(a => a[key] !==  value);
@@ -91,21 +76,78 @@ class KmQueueCache {
             fs.readFile(this.cachePath, (err, rawData) => {
                 if (err) reject(err);
                 let jsonData = [];
-                if(this.isJsonParsable(rawData)) {
+                if(isJsonParsable(rawData)) {
                     jsonData = JSON.parse(rawData);
                 }
-                resolve(jsonData.find(expression));
+                let result = jsonData.find(expression);
+                if(result) {
+                    resolve(result);
+                } else {
+                    resolve({});
+                }
             });
         }));
     }
-    isJsonParsable(string) {
-        try {
-            JSON.parse(string);
-        } catch (e) {
-            return false;
-        }
-        return true;
+    filter(expression) {
+        return new Promise(((resolve, reject) => {
+            fs.readFile(this.cachePath, (err, rawData) => {
+                if (err) reject(err);
+                let jsonData = [];
+                if(isJsonParsable(rawData)) {
+                    jsonData = JSON.parse(rawData);
+                }
+                let result = jsonData.filter(expression);
+                if(result) {
+                    resolve(result);
+                } else {
+                    resolve([]);
+                }
+            });
+        }));
+    }
+    get(key, value) {
+        return new Promise(((resolve, reject) => {
+            fs.readFile(this.cachePath, (err, rawData) => {
+                if (err) reject(err);
+                let jsonData = [];
+                if(isJsonParsable(rawData)) {
+                    jsonData = JSON.parse(rawData);
+                }
+                let result = jsonData.filter(a => a[key] === value);
+                if(result) {
+                    resolve(result);
+                } else {
+                    resolve([]);
+                }
+            });
+        }));
+    }
+    getAll(key, value) {
+        return new Promise(((resolve, reject) => {
+            fs.readFile(this.cachePath, (err, rawData) => {
+                if (err) reject(err);
+                let jsonData = [];
+                if(isJsonParsable(rawData)) {
+                    jsonData = JSON.parse(rawData);
+                }
+                let result = jsonData.find(a => a[key] === value);
+                if(result) {
+                    resolve(result);
+                } else {
+                    resolve({});
+                }
+            });
+        }));
     }
 }
+function isJsonParsable(string) {
+    try {
+        JSON.parse(string);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 
 module.exports = KmQueueCache;
